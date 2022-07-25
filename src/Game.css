@@ -1,0 +1,31 @@
+/* GAME PIKCHU */
+.root-page {
+    /* background-image: url('./images/background.jpg');
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
+    height: 100vh;
+    background-color: black;
+  }
+ 
+/* TIME BAR */
+.time-bar-root {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+.time-bar {
+    display: flex;
+    border: solid 4px white;
+    width: 70vw;
+    height: 35px;
+}
+.time-bar-pass {
+    background-color: red;
+    width: 40vw;
+}
+.time-bar-left {
+    background-color: white;
+    width: 30vw;
+}
