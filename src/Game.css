@@ -29,3 +29,68 @@
     background-color: white;
     width: 30vw;
 }
+/* GAME TABLE */
+#game-canvas {
+    position: absolute;
+    z-index: 1;
+    background-color: transparent;
+}
+.game-table {
+    position: relative;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+.game-table-horizontal {
+    display: flex;
+    z-index: 10;
+}
+.game-table-card {
+    width: 66px;
+    height: 66px;
+    border: solid 2px gray;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.game-table-card-selected {
+    width: 66px;
+    height: 66px;
+    border: solid 2px yellow;
+    background-color: #DEDEDE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.game-table-card-success {
+    width: 66px;
+    height: 66px;
+    border: solid 2px #00FF00;
+    background-color: #DEDEDE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.game-table-card-failure {
+    width: 66px;
+    height: 66px;
+    border: solid 2px red;
+    background-color: #DEDEDE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.game-table-card:active {
+    transform: translateY(2px);
+    background-color: #bebebe;
+}
