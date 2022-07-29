@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
-const Table = () => {
-    const HORIZONTAL_LENGTH = 12
-    const VERTICAL_LENGTH = 5
+const Table = ({event}) => {
+    const HORIZONTAL_LENGTH = 15
+    const VERTICAL_LENGTH = 10
     const CARD_SIZE = 70
     const STATUS = {
         SUCCESS: 'SUCCESS',
@@ -15,32 +15,94 @@ const Table = () => {
         HORIZONTAL: 'HORIZONTAL',
         VERTICAL: 'VERTICAL'
     }
+    const EVENT = {
+        NEW: 'NEW',
+        SUGGEST: 'SUGGEST',
+        PLAY: 'PLAY',
+        CHANGE: 'CHANGE'
+    }
 
-    // const initTwoDimentionArray = () => {
-    //     const arr = []
-    //     for (let i = 0; i <= VERTICAL_LENGTH + 1; i++) {
-    //         const arrItem = []
-    //         for (let j = 0; j <= HORIZONTAL_LENGTH + 1; j++) {
-    //             arrItem.push(0)
-    //         }
-    //         arr.push(arrItem)
-    //     }
-    //     return arr
-    //}
+    const shuffle = (array) => {
+        let currentIndex = array.length,  randomIndex;
+        while (currentIndex != 0) {
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          if(array[currentIndex] !== 0 || array[randomIndex] !== 0) {
+            [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
+          }
+        }
+      
+        return array;
+      }
 
-    const [data, setData] = useState([
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,1,2,3,4,5,6,5,7,8,9,9,10,0],
-        [0,4,11,2,10,3,9,12,13,2,1,11,14,0],
-        [0,6,15,12,15,4,14,8,8,9,10,11,3,0],
-        [0,11,10,12,2,13,6,1,14,4,7,3,7,0],
-        [0,8,15,14,15,12,7,13,5,13,6,5,1,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        
-    ])
+      const initArrayValues = () => {
+        let arr = []
+        for(let i = 1; i <= HORIZONTAL_LENGTH * VERTICAL_LENGTH/6; i++){
+            arr = [...arr, i, i, i, i, i, i]
+        }
+
+        return shuffle(shuffle(shuffle(arr)))
+    }  
+
+    const initTwoDimentionArray = (arrValue) => {
+        const arr = []
+        for (let i = 0; i <= VERTICAL_LENGTH + 1; i++) {
+            const arrItem = []
+            for (let j = 0; j <= HORIZONTAL_LENGTH + 1; j++) {
+                if(i === 0 || j === 0 || i === VERTICAL_LENGTH + 1 || j === HORIZONTAL_LENGTH + 1) {
+                    arrItem.push(0)
+                } else {
+                    //const value = values.pop()
+                    arrItem.push(arrValue.shift())
+                }
+            }
+            arr.push(arrItem)
+        }
+        return arr
+    }
+
+    const [data, setData] = useState(initTwoDimentionArray(initArrayValues()))
     const [selectedCards, setSelectedCards] = useState([])
     const [status, setStatus] = useState(STATUS.DEFAULT)
 
+    const handleEvent = () => {
+        switch(event) {
+            case EVENT.NEW:
+                return setData(initTwoDimentionArray(initArrayValues()))
+            case EVENT.CHANGE:
+                return handleChangeCard()
+            case EVENT.PLAY:
+                return handleAutoPlay()
+            case EVENT.SUGGEST:
+                return handleSuggestCard()    
+            default:
+                return        
+        }
+    }
+
+    const handleChangeCard = () => {
+        const arr = []
+        for (let i = 0; i <= VERTICAL_LENGTH + 1; i++) {
+            for (let j = 0; j <= HORIZONTAL_LENGTH + 1; j++) {
+                arr.push(data[i][j])
+            }
+        }
+        const newData = initTwoDimentionArray(shuffle(arr))
+        console.log('handle change card', newData)
+        setData(newData)
+    }
+
+    const handleSuggestCard = () => {
+        console.log('handle suggest card')
+    }
+
+    const handleAutoPlay = () => {
+        console.log('handle auto play card')
+    }
+
+    handleEvent()
+ 
     const compareCard = (firstCard, secondCard) => {
         return firstCard.vertical === secondCard.vertical && firstCard.horizontal === secondCard.horizontal
     }
@@ -220,7 +282,6 @@ const Table = () => {
                         points = currentPoints
                     }
                 })
-                console.log('POINTS:', points)
             }
             if(points.length) {
                 setStatus(STATUS.SUCCESS)
