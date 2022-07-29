@@ -261,7 +261,19 @@ const Table = ({event}) => {
             default:
                 return
         }
-    }    
+    } 
+    
+    const checkOutOfCard = () => {
+        for (let i = 0; i <= VERTICAL_LENGTH + 1; i++) {
+            for (let j = 0; j <= HORIZONTAL_LENGTH + 1; j++) {
+                if(data[i][j]) {
+                    return
+                }
+            }
+        }
+        alert('You Win!!!')
+    }
+
     
     const handleLineOfCard = (cards) => {
         const startPoint = cards[0]
@@ -291,6 +303,7 @@ const Table = ({event}) => {
                     data[startPoint.vertical][startPoint.horizontal] = 0
                     data[endPoint.vertical][endPoint.horizontal] = 0
                     setData(dataClone)
+                    checkOutOfCard()
                 }, 400)
             } else {
                 setStatus(STATUS.FAILURE)
